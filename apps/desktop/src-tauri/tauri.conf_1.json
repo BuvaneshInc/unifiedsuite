@@ -1,0 +1,1 @@
+{"package":{"productName":"Foundry","version":"0.1.0"},"tauri":{"bundle":{"active":true,"targets":["msi","dmg","deb"],"identifier":"ai.foundry.desktop"}}}

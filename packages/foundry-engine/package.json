@@ -1,0 +1,6 @@
+{
+  "name": "@foundry/engine",
+  "dependencies": {
+    "onnxruntime-web": "^1.17"
+  }
+}

@@ -1,0 +1,31 @@
+
+{
+  "build": {
+    "beforeDevCommand": "pnpm dev",
+    "beforeBuildCommand": "pnpm build",
+    "devPath": "http://localhost:1420",
+    "distDir": "../dist"
+  },
+  "package": {
+    "productName": "Foundry",
+    "version": "0.1.0"
+  },
+  "tauri": {
+    "allowlist": {
+      "all": false,
+      "fs": { "all": true, "scope": ["$APPLOCALDATA/*", "$RESOURCE/*"] },
+      "path": { "all": true },
+      "http": { "all": true, "scope": ["https://foundry-cdn.*.workers.dev/*"] }
+    },
+    "bundle": {
+      "active": true,
+      "targets": ["msi", "dmg", "deb", "appimage"],
+      "identifier": "ai.foundry.desktop",
+      "icon": ["icons/32x32.png","icons/128x128.png","icons/icon.icns","icons/icon.ico"],
+      "resources": ["../public/wasm/*"],
+      "externalBin": []
+    },
+    "security": { "csp": "default-src 'self' https://foundry-cdn.*.workers.dev; script-src 'self' 'unsafe-eval' wasm-unsafe-eval" },
+    "windows": [{ "title": "Foundry - AI Native Suite", "width": 1280, "height": 800, "resizable": true }]
+  }
+}

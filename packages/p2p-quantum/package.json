@@ -1,0 +1,1 @@
+{"name":"@foundry/p2p-quantum","dependencies":{"ml-kem":"^1.0","blake3-wasm":"^2.0"}}

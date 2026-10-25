@@ -1,0 +1,36 @@
+
+name = "foundry-cdn"
+main = "src/index.ts"
+compatibility_date = "2024-10-01"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+ENVIRONMENT = "production"
+MODEL_BUCKET = "foundry-models"
+ALLOW_FALLBACK_AI = "false" # zero-retention by default
+
+[[kv_namespaces]]
+binding = "KV_SYNC"
+id = "foundry_kv_sync_prod"
+preview_id = "foundry_kv_sync_preview"
+
+[[r2_buckets]]
+binding = "MODEL_CACHE"
+bucket_name = "foundry-model-cache"
+preview_bucket_name = "foundry-model-cache-preview"
+
+[[r2_buckets]]
+binding = "TELEMETRY_BUCKET"
+bucket_name = "foundry-telemetry"
+
+[triggers]
+crons = ["0 2 * * 1"] # Weekly LoRA distill job
+
+[observability]
+enabled = true
+
+[observability.logs]
+invocation_mode = "none" # Zero logging for content paths
+
+[build]
+command = "pnpm build"

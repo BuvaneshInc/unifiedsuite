@@ -1,0 +1,14 @@
+{
+  "name": "foundry-suite",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "apps/*",
+    "workers/*"
+  ],
+  "scripts": {
+    "dev:desktop": "tauri dev",
+    "dev:worker": "wrangler dev",
+    "build": "turbo build"
+  }
+}

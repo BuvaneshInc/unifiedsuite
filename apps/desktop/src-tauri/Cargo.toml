@@ -1,0 +1,9 @@
+[package]
+name = "foundry-desktop"
+version = "0.1.0"
+edition = "2021"
+[dependencies]
+tauri = { version = "2.0", features = [] }
+onnxruntime = "0.3"
+rusqlite = { version = "0.31", features = ["bundled"] }
+lance = "0.10"

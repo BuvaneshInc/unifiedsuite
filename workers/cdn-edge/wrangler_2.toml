@@ -1,0 +1,18 @@
+
+name = "foundry-cdn"
+main = "src/index.ts"
+compatibility_date = "2024-10-01"
+compatibility_flags = ["nodejs_compat"]
+[[kv_namespaces]]
+binding = "KV_SYNC"
+id = "foundry_kv_sync_prod"
+[[r2_buckets]]
+binding = "MODEL_CACHE"
+bucket_name = "foundry-model-cache"
+[[r2_buckets]]
+binding = "TELEMETRY_BUCKET"
+bucket_name = "foundry-telemetry"
+[triggers]
+crons = ["0 2 * * 1"]
+[observability.logs]
+invocation_mode = "none"
