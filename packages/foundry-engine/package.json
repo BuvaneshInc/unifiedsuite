@@ -1,6 +1,21 @@
 {
   "name": "@foundry/engine",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "./dist/engine.js",
+  "types": "./dist/engine.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/engine.d.ts",
+      "import": "./dist/engine.js",
+      "default": "./dist/engine.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc"
+  },
   "dependencies": {
-    "onnxruntime-web": "^1.17"
+    "@foundry/canonical-model": "workspace:*",
+    "onnxruntime-web": "^1.17.0"
   }
 }

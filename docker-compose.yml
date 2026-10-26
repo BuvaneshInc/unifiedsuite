@@ -1,0 +1,48 @@
+
+services:
+  foundry-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: foundry_web
+    restart: unless-stopped
+    ports:
+      - "3001:80"
+    environment:
+      - PORT=80
+      - EDGE_HOST=foundry-edge:8787
+      - NODE_ENV=production
+    depends_on:
+      - foundry-edge
+    networks:
+      - foundry-net
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:80/').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
+  foundry-edge:
+    build:
+      context: .
+      dockerfile: Dockerfile.edge
+    container_name: foundry_edge
+    restart: unless-stopped
+    ports:
+      - "8787:8787"
+    environment:
+      - PORT=8787
+      - NODE_ENV=production
+    networks:
+      - foundry-net
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:8787/sync').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
+networks:
+  foundry-net:
+    driver: bridge

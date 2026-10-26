@@ -113,7 +113,7 @@ export class QuantumP2PSync {
   }
   private static async blake3(data: Uint8Array): Promise<Uint8Array> {
     // In prod: use blake3-wasm. For now SHA3-256 as placeholder
-    const h = await crypto.subtle.digest('SHA-256', data);
+    const h = await crypto.subtle.digest('SHA-256', data as any);
     return new Uint8Array(h);
   }
   private static async generateMlKem768(): Promise<{publicKey: Uint8Array, privateKey: Uint8Array}> {
@@ -126,20 +126,20 @@ export class QuantumP2PSync {
     return { ciphertext: crypto.getRandomValues(new Uint8Array(1088)), sharedSecret: crypto.getRandomValues(new Uint8Array(32)) };
   }
   private async hkdfDerive(secret: Uint8Array, info: string): Promise<{encKey: Uint8Array, nonceBase: Uint8Array, ratchetKey: Uint8Array}> {
-    const key = await crypto.subtle.importKey('raw', secret, 'HKDF', false, ['deriveBits']);
-    const bits = await crypto.subtle.deriveBits({name:'HKDF', hash:'SHA-256', salt: new TextEncoder().encode(this.identity.salt), info: new TextEncoder().encode(info)} as any, key, 512);
+    const key = await crypto.subtle.importKey('raw', secret as any, 'HKDF', false, ['deriveBits']);
+    const bits = await crypto.subtle.deriveBits({name:'HKDF', hash:'SHA-256', salt: new TextEncoder().encode(this.identity.salt) as any, info: new TextEncoder().encode(info) as any} as any, key, 512);
     const arr = new Uint8Array(bits);
     return { encKey: arr.slice(0,32), nonceBase: arr.slice(32,44), ratchetKey: arr.slice(44,64) };
   }
   private async chaChaEncrypt(pt: Uint8Array, nonce: Uint8Array, aad: Uint8Array): Promise<Uint8Array> {
     // Use WebCrypto AES-GCM 256 as placeholder for ChaCha20Poly1305 (both 256-bit quantum resistant for data)
-    const key = await crypto.subtle.importKey('raw', new Uint8Array(32), 'AES-GCM', false, ['encrypt']);
-    const ct = await crypto.subtle.encrypt({name:'AES-GCM', iv: nonce, additionalData: aad} as any, key, pt);
+    const key = await crypto.subtle.importKey('raw', new Uint8Array(32) as any, 'AES-GCM', false, ['encrypt']);
+    const ct = await crypto.subtle.encrypt({name:'AES-GCM', iv: nonce as any, additionalData: aad as any} as any, key, pt as any);
     return new Uint8Array(ct);
   }
   private async ratchetDecrypt(data: any, key: Uint8Array): Promise<string> { return data; }
   private async ratchetAdvance(key: Uint8Array): Promise<Uint8Array> {
-    const h = await crypto.subtle.digest('SHA-256', key);
+    const h = await crypto.subtle.digest('SHA-256', key as any);
     return new Uint8Array(h).slice(0,20);
   }
 }

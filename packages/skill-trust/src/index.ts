@@ -48,7 +48,7 @@ export class SkillTrustEngine {
   }
 
   private async blake3(data: Uint8Array): Promise<string> {
-    const h = await crypto.subtle.digest('SHA-256', data);
+    const h = await crypto.subtle.digest('SHA-256', data as any);
     return Buffer.from(h).toString('hex');
   }
   private async verifySigstore(sig: string, hash: string, publisher: string): Promise<boolean> {

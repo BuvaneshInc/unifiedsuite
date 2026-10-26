@@ -1,9 +1,9 @@
 
 import { useState, useEffect } from 'react';
 import { FirstRunOnboarding } from './components/Onboarding';
-import { LocalizationEngine } from '../../packages/localization/src/index';
-import { SkillEngine } from '../../packages/localization/src/skills';
-import { AdaptiveEngine } from '../../packages/localization/src/adaptive';
+import { LocalizationEngine } from '@foundry/localization';
+import { SkillEngine } from '@foundry/localization/skills';
+import { AdaptiveEngine } from '@foundry/localization/adaptive';
 
 export default function App(){
   const [firstRun] = useState(localStorage.getItem('foundry_onboarded')!=='true');
@@ -40,7 +40,7 @@ export default function App(){
 
       <div className='border-2 border-dashed border-zinc-700 rounded-2xl p-8 text-center'>
         <input type='file' id='f' className='hidden' onChange={e=>{
-          const adaptive = new (window as any).AdaptiveEngine?.() || {learnFromDocType:()=>{}};
+          const adaptive = (window as any).AdaptiveEngine ? new (window as any).AdaptiveEngine() : {learnFromDocType:()=>{}};
           const file=e.target.files?.[0]; if(file){ adaptive.learnFromDocType?.(file.name.split('.').pop()); }
         }}/>
         <label htmlFor='f' className='cursor-pointer'><div>Drop PDF/DOCX/XLSX here - localized to {locale}</div><div className='text-xs text-zinc-500 mt-1'>Skills auto-wrap around your needs • Learns daily</div></label>

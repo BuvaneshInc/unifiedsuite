@@ -1,5 +1,12 @@
 #!/bin/bash
 set -e
-wrangler deploy --env production
+
+echo "==> Deploying Cloudflare Worker (CDN Edge)..."
+wrangler deploy --config workers/cdn-edge/wrangler.toml
+
+echo "==> Building Web Application..."
 pnpm build:web
-wrangler pages deploy dist
+
+echo "==> Deploying Web Application to Cloudflare Pages..."
+wrangler pages deploy apps/web/dist --project-name=foundry-web
+

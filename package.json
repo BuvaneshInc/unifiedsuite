@@ -1,14 +1,22 @@
 {
   "name": "foundry-suite",
   "private": true,
+  "packageManager": "pnpm@9.15.4",
   "workspaces": [
     "packages/*",
     "apps/*",
     "workers/*"
   ],
   "scripts": {
-    "dev:desktop": "tauri dev",
+    "build": "turbo build",
+    "build:web": "pnpm --filter @foundry/web build",
+    "dev:web": "pnpm --filter @foundry/web dev",
+    "dev:desktop": "pnpm --filter @foundry/desktop dev",
     "dev:worker": "wrangler dev",
-    "build": "turbo build"
+    "typecheck": "turbo typecheck"
+  },
+  "devDependencies": {
+    "turbo": "^2.1.3",
+    "typescript": "^5.6.3"
   }
 }

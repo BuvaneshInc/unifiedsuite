@@ -1,0 +1,33 @@
+# ==========================================
+# Foundry Local CDN Edge Worker Container
+# ==========================================
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+
+RUN corepack enable && corepack prepare pnpm@9.15.4 --activate
+
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml turbo.json tsconfig.base.json ./
+COPY packages/ ./packages/
+COPY apps/ ./apps/
+COPY workers/ ./workers/
+
+ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
+RUN pnpm install --frozen-lockfile
+RUN pnpm --filter @foundry/cdn-edge build
+
+# ==========================================
+# Production Edge Runner
+# ==========================================
+FROM node:20-alpine AS runner
+
+WORKDIR /app
+
+COPY --from=builder /app/workers/cdn-edge/dist ./workers/cdn-edge/dist
+COPY --from=builder /app/workers/cdn-edge/server.mjs ./workers/cdn-edge/server.mjs
+COPY --from=builder /app/workers/cdn-edge/package.json ./workers/cdn-edge/package.json
+
+EXPOSE 8787
+
+ENV PORT=8787
+CMD ["node", "workers/cdn-edge/server.mjs"]

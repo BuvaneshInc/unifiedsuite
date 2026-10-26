@@ -1,8 +1,8 @@
 
 import { useState, useEffect } from 'react';
 import { FirstRunOnboarding } from './components/Onboarding';
-import { LocalizationEngine } from '../../packages/localization/src/index';
-import { SkillEngine } from '../../packages/localization/src/skills';
+import { LocalizationEngine } from '@foundry/localization';
+import { SkillEngine } from '@foundry/localization/skills';
 
 export default function App(){
   const [firstRun] = useState(localStorage.getItem('foundry_onboarded')!=='true');

@@ -1,0 +1,30 @@
+{
+  "name": "@foundry/localization",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./skills": {
+      "types": "./dist/skills.d.ts",
+      "import": "./dist/skills.js",
+      "default": "./dist/skills.js"
+    },
+    "./adaptive": {
+      "types": "./dist/adaptive.d.ts",
+      "import": "./dist/adaptive.js",
+      "default": "./dist/adaptive.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@foundry/canonical-model": "workspace:*"
+  }
+}

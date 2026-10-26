@@ -34,13 +34,10 @@ export class RecoveryEngine {
     // XOR reconstruction
     const s1 = Uint8Array.from(Buffer.from(shards[0].shard, 'hex'));
     const s2 = Uint8Array.from(Buffer.from(shards[1].shard, 'hex'));
-    let guid: Uint8Array;
-    if(shards.length===2) {
-      // Need logic for which indices - simplified: assume 1+2+3 where 3 is xor of all
-      guid = new Uint8Array(32);
-      for(let i=0;i<32;i++) guid[i] = s1[i] ^ s2[i] ^ (shards.length===3 ? Uint8Array.from(Buffer.from(shards[2].shard,'hex'))[i] : 0);
-    } else {
-      guid = s1; // placeholder
+    const s3 = shards.length > 2 ? Uint8Array.from(Buffer.from(shards[2].shard, 'hex')) : null;
+    const guid = new Uint8Array(32);
+    for(let i=0;i<32;i++) {
+      guid[i] = s1[i] ^ s2[i] ^ (s3 ? s3[i] : 0);
     }
     return Buffer.from(guid).toString('hex');
   }

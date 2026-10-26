@@ -28,6 +28,9 @@ export class LocalizationEngine {
   private currentLocale: Locale = 'en-IN';
   private market: Market = MARKETS['IN'];
 
+  getMarket(): Market { return this.market; }
+  getLocale(): Locale { return this.currentLocale; }
+
   async setLocale(locale: Locale, country: string) {
     this.currentLocale = locale;
     this.market = MARKETS[country] || MARKETS['IN'];
